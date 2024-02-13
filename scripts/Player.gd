@@ -79,10 +79,9 @@ func update_animation() :
 		$AnimatedSprite.flip_h = true if (moveVector.x > 0) else false
 	
 
-# 게임 오버 모듈어
+# 플레이어 die 모듈화
 func on_hazard_area_entered(area2d) :
 	emit_signal("died")
-	print("die")
 	
 	
 	
