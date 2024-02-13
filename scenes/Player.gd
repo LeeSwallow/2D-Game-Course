@@ -23,7 +23,7 @@ func _process(delta):
 	velocity.x = clamp(velocity.x, -maxHorizontalSpeed, maxHorizontalSpeed)
 	
 	# 종 이동 메카니즘 
-	if (moveVector.y < 0 && is_on_floor()) :
+	if (moveVector.y < 0 && (is_on_floor() || !$CoyoteTimer.is_stopped())) :
 		velocity.y = moveVector.y * jumpSpeed
 	
 	# 중력 
@@ -34,8 +34,17 @@ func _process(delta):
 		# 소 점프
 		velocity.y +=  gravity * delta
 	
-	update_animation()
+	# 코요테 타임
+	var wasOnFloor = is_on_floor()
+	
 	velocity = move_and_slide(velocity, Vector2.UP) # 속도, 상하 지정 
+	
+	if(wasOnFloor && !is_on_floor()) :
+		$CoyoteTimer.start()
+		
+	
+	# 애니메이션 적용
+	update_animation()
 
 # 입력 메카니즘 모듈화
 func get_movement_vector():
