@@ -63,7 +63,6 @@ tracks/2/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 16.0
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -81,11 +80,11 @@ autoplay = "idle"
 anims/idle = SubResource( 3 )
 anims/pickup = SubResource( 4 )
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 32768
-collision_mask = 32768
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 524288
+collision_mask = 524288
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
 shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

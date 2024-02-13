@@ -1,6 +1,8 @@
 extends KinematicBody2D
 
 # Evironment variable
+signal died
+
 var gravity = 1000
 var velocity = Vector2.ZERO
 var maxHorizontalSpeed = 150
@@ -11,7 +13,7 @@ var hasDoubleJump = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$HazardArea.connect("area_entered", self, "on_hazard_area_entered")
 
 func _process(delta):
 	var moveVector = get_movement_vector()
@@ -62,6 +64,7 @@ func get_movement_vector():
 		moveVector.y = (-1) if Input.is_action_just_pressed("jump") else 0
 		return moveVector
 
+# 캐릭터 애니매이션 모듈화
 func update_animation() :
 	var moveVector = get_movement_vector()
 	
@@ -74,4 +77,12 @@ func update_animation() :
 	
 	if(moveVector.x != 0) :
 		$AnimatedSprite.flip_h = true if (moveVector.x > 0) else false
+	
+
+# 게임 오버 모듈어
+func on_hazard_area_entered(area2d) :
+	emit_signal("died")
+	print("die")
+	
+	
 	

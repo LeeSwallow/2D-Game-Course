@@ -76,6 +76,11 @@ jump={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_19="HARZARD"
+2d_physics/layer_20="PICKUP"
+
 [mono]
 
 project/assembly_name="2D Platformer Course"
