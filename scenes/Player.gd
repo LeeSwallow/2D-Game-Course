@@ -13,11 +13,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
-	
-	# 입력 메카니즘
-	var moveVector = Vector2.ZERO
-	moveVector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	moveVector.y = (-1) if Input.is_action_just_pressed("jump") else 0
+	var moveVector = get_movement_vector()
 	
 	# 횡 이동 메카니즘
 	velocity.x += moveVector.x * HorizontalAcceleration * delta
@@ -39,3 +35,10 @@ func _process(delta):
 		velocity.y +=  gravity * delta
 	
 	velocity = move_and_slide(velocity, Vector2.UP) # 속도, 상하 지정 
+
+# 입력 메카니즘 모듈화
+func get_movement_vector():
+		var moveVector = Vector2.ZERO
+		moveVector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+		moveVector.y = (-1) if Input.is_action_just_pressed("jump") else 0
+		return moveVector
