@@ -1,11 +1,12 @@
 extends KinematicBody2D
 
 # Evironment variable
-var gravity = 300
+var gravity = 1000
 var velocity = Vector2.ZERO
-var maxHorizontalSpeed = 100
-var HorizontalAcceleration = 400
-var jumpSpeed = 100
+var maxHorizontalSpeed = 150
+var HorizontalAcceleration = 1500
+var jumpSpeed = 320
+var jumpTerminationMultiplier =  3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,16 +20,22 @@ func _process(delta):
 	moveVector.y = (-1) if Input.is_action_just_pressed("jump") else 0
 	
 	# 횡 이동 메카니즘
-	velocity.x = moveVector.x * HorizontalAcceleration * delta
+	velocity.x += moveVector.x * HorizontalAcceleration * delta
 	if (moveVector.x == 0) :
-		velocity = lerp(0, velocity.x, pow(2, -delta))
+		velocity.x = lerp(0, velocity.x, pow(2, -25 * delta))
 	
-	velocity.x = clamp(velocity.x, -(maxHorizontalSpeed), maxHorizontalSpeed)
+	velocity.x = clamp(velocity.x, -maxHorizontalSpeed, maxHorizontalSpeed)
 	
 	# 종 이동 메카니즘 
 	if (moveVector.y < 0 && is_on_floor()) :
 		velocity.y = moveVector.y * jumpSpeed
 	
-	velocity.y +=  gravity * delta # 중력
+	# 중력 
+	if(velocity.y < 0 && !Input.is_action_pressed("jump")) : 
+		# 강 점프
+		velocity.y += gravity * jumpTerminationMultiplier * delta
+	else :
+		# 소 점프
+		velocity.y +=  gravity * delta
 	
 	velocity = move_and_slide(velocity, Vector2.UP) # 속도, 상하 지정 
