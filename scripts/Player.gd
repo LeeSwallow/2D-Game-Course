@@ -3,19 +3,42 @@ extends KinematicBody2D
 # Evironment variable
 signal died
 
+enum State { NORMAL, DASHING }
+
 var gravity = 1000
 var velocity = Vector2.ZERO
 var maxHorizontalSpeed = 150
+var minDashSpeed = 200
+var maxDashSpeed = 500
 var HorizontalAcceleration = 1500
 var jumpSpeed = 320
 var jumpTerminationMultiplier =  3
 var hasDoubleJump = false
+var currentState = State.NORMAL
+var isStateNew = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$HazardArea.connect("area_entered", self, "on_hazard_area_entered")
 
+
+
 func _process(delta):
+	match currentState:
+		State.NORMAL:
+			process_normal(delta)
+		State.DASHING:
+			process_dash(delta)
+	isStateNew = false
+	
+func change_state(newState):
+	currentState = newState
+	isStateNew = true
+	
+
+# normal 상태 모듈화
+func process_normal(delta):
+		
 	var moveVector = get_movement_vector()
 	
 	# 횡 이동 메카니즘
@@ -31,7 +54,6 @@ func _process(delta):
 		if (!is_on_floor() && $CoyoteTimer.is_stopped()) :
 			hasDoubleJump = false
 		$CoyoteTimer.stop()
-	
 	# 중력 
 	if (velocity.y < 0 && !Input.is_action_pressed("jump")) : 
 		# 강 점프
@@ -39,23 +61,44 @@ func _process(delta):
 	else :
 		# 소 점프
 		velocity.y +=  gravity * delta
-	
+
 	# 코요테 타임
 	var wasOnFloor = is_on_floor()
-	
 	# **가속도 메카니즘 갱신**
 	velocity = move_and_slide(velocity, Vector2.UP) # 속도, 상하 지정 
 	
 	# 코요테 타이머 시작
 	if(wasOnFloor && !is_on_floor()) :
 		$CoyoteTimer.start()
+
 	# 더블 점프 갱신
 	if(is_on_floor()) :
 		hasDoubleJump = true
 	
+	# 대시 상태 확인
+	if(Input.is_action_just_pressed("dash")):
+		call_deferred("change_state", State.DASHING)
 	
 	# **애니메이션 적용**
 	update_animation()
+
+func process_dash(delta):
+	if (isStateNew):
+		var moveVector = get_movement_vector()
+		var velocityMod = 1
+		if (moveVector.x != 0) :
+			velocityMod = sign(moveVector.x)
+		else:
+			velocityMod = 1 if $AnimatedSprite.flip_h else -1
+
+
+		velocity = Vector2(maxDashSpeed * velocityMod, 0)
+	
+	velocity = move_and_slide(velocity, Vector2.UP)
+	velocity.x = lerp(0, velocity.x, pow(2, -8 * delta))
+	
+	if (abs(velocity.x) < minDashSpeed) :
+		call_deferred("change_state", State.NORMAL)
 
 # 입력 메카니즘 모듈화
 func get_movement_vector():
