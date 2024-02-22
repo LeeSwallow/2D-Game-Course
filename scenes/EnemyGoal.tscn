@@ -4,6 +4,7 @@
 extents = Vector2( 9, 9 )
 
 [node name="EnemyGoal" type="Node2D"]
+modulate = Color( 0.160784, 0.92549, 0, 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 131072

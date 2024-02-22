@@ -9,16 +9,21 @@ export(int, LAYERS_2D_PHYSICS) var dashHazardMask
 
 var gravity = 1000
 var velocity = Vector2.ZERO
+
 var maxHorizontalSpeed = 150
 var minDashSpeed = 200
 var maxDashSpeed = 500
 var HorizontalAcceleration = 1500
 var jumpSpeed = 320
+
 var jumpTerminationMultiplier =  3
 var hasDoubleJump = false
-var currentState = State.NORMAL
+var hasDash = false
 var isStateNew = true
+
+var currentState = State.NORMAL
 var defaultHazardMask = 0
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -76,17 +81,20 @@ func process_normal(delta):
 	if(wasOnFloor && !is_on_floor()) :
 		$CoyoteTimer.start()
 
-	# 더블 점프 갱신
+	# 플레이어가 땅위에 있을 때 초기화
 	if(is_on_floor()) :
 		hasDoubleJump = true
-	
-	# 대시 상태 확인
-	if(Input.is_action_just_pressed("dash")):
+		hasDash = true
+			
+	# 대시 상태 확인 & 실행
+	if(hasDash && Input.is_action_just_pressed("dash")):
 		call_deferred("change_state", State.DASHING)
+		hasDash = false
 	
 	# **애니메이션 적용**
 	update_animation()
 
+# 대쉬 상태 구현
 func process_dash(delta):
 	if (isStateNew):
 		$DashArea/CollisionShape2D.disabled = false
