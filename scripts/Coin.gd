@@ -7,5 +7,8 @@ func on_area_entered(area2d):
 	$AnimationPlayer.play("pickup")
 	call_deferred("disable_pickup")
 	
+	var baseLevel = get_tree().get_nodes_in_group("base_level")[0]
+	baseLevel.coin_collected()
+	
 func disable_pickup() :
 	$PickupArea/CollisionShape2D.disabled = true

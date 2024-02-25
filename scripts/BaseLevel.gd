@@ -1,12 +1,27 @@
 extends Node
 
+signal coin_total_changed
+
 var playerScene = preload("res://scenes/Player.tscn")
 var spawnPosition = Vector2.ZERO
 var currentPlayerNode = null
+var totalCoins = 0
+var collectedCoins = 0
 
 func _ready():
 	spawnPosition = $Player.global_position
 	register_player($Player)
+	totalCoins = get_tree().get_nodes_in_group("coin").size()
+	
+# 플레이어가 코인을 먹었을 때
+func coin_collected():
+	collectedCoins += 1
+	emit_signal("coin_total_changed", totalCoins, collectedCoins)
+	
+# 월드에 코인을 추가로 생성할 때
+func coin_total_changed(newTotal):
+	totalCoins = newTotal
+	emit_signal("coin_total_changed", totalCoins, collectedCoins)
 	
 func register_player(player):
 	currentPlayerNode = player
