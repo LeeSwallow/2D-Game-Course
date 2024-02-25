@@ -12,6 +12,8 @@ func _ready():
 	spawnPosition = $Player.global_position
 	register_player($Player)
 	totalCoins = get_tree().get_nodes_in_group("coin").size()
+	emit_signal("coin_total_changed", totalCoins, collectedCoins)
+	
 	
 # 플레이어가 코인을 먹었을 때
 func coin_collected():
