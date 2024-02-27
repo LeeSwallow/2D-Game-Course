@@ -14,6 +14,8 @@ func _ready():
 	totalCoins = get_tree().get_nodes_in_group("coin").size()
 	emit_signal("coin_total_changed", totalCoins, collectedCoins)
 	
+	$Flag.connect("player_won", self, "on_player_won")
+	
 	
 # 플레이어가 코인을 먹었을 때
 func coin_collected():
@@ -38,3 +40,6 @@ func create_player():
 func on_player_died():
 	currentPlayerNode.queue_free() # 마지막에 실행하므로 상관없음
 	create_player()
+
+func on_player_won():
+	$"/root/LevelManager".increment_level()
