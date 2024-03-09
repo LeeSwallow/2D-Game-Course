@@ -49,6 +49,7 @@ func change_state(newState):
 # normal 상태 모듈화
 func process_normal(delta):
 	if (isStateNew):
+		$DashParticles.emitting = false
 		$DashArea/CollisionShape2D.disabled = true
 		$HazardArea.collision_mask = defaultHazardMask
 		
@@ -101,6 +102,7 @@ func process_normal(delta):
 # 대쉬 상태 구현
 func process_dash(delta):
 	if (isStateNew):
+		$DashParticles.emitting = true
 		$"/root/Helper".apply_camera_shake(.75)
 		$DashArea/CollisionShape2D.disabled = false
 		$AnimatedSprite.play("jump")
