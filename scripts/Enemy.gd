@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+var enemyDeathScene = preload("res://scenes/EnemyDeath.tscn")
+
 var maxSpeed = 25
 var velocity = Vector2.ZERO
 var direction = Vector2.ZERO
@@ -21,8 +23,17 @@ func _process(delta):
 
 	$AnimatedSprite.flip_h = true if direction.x > 0 else false
 
+func kill():
+	var deathInstance = enemyDeathScene.instance()
+	get_parent().add_child(deathInstance)
+	deathInstance.global_position = global_position
+	if(velocity.x > 0):
+		deathInstance.scale = Vector2(-1, 1)
+	queue_free()
+
 func on_goal_entered(_area2d):
 	direction *= -1
 
 func on_hitbox_entered(_area2D):
-	queue_free()
+	$"/root/Helper".apply_camera_shake(1)
+	call_deferred("kill")
