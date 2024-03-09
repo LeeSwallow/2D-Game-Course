@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 var enemyDeathScene = preload("res://scenes/EnemyDeath.tscn")
+export	var isSpawning = false
 
 var maxSpeed = 25
 var velocity = Vector2.ZERO
@@ -15,13 +16,16 @@ func _ready():
 	
 
 func _process(delta):
+	if (isSpawning): # 모든 상태에 대해 지정하지 말기
+		return
+		
 	velocity.x = (direction * maxSpeed).x
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 	if (!is_on_floor()):
 		velocity.y += gravity * delta
 
-	$AnimatedSprite.flip_h = true if direction.x > 0 else false
+	$Visuals/AnimatedSprite.flip_h = true if direction.x > 0 else false
 
 func kill():
 	var deathInstance = enemyDeathScene.instance()
