@@ -143,4 +143,4 @@ position = Vector2( 344, 33 )
 position = Vector2( 360, 33 )
 
 [node name="Player" parent="PlayerRoot" index="0"]
-position = Vector2( -117, 1 )
+position = Vector2( -117, 5 )

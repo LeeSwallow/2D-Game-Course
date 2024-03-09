@@ -8,6 +8,7 @@ enum State { NORMAL, DASHING }
 export(int, LAYERS_2D_PHYSICS) var dashHazardMask
 
 var playerDeathScene = preload("res://scenes/PlayerDeath.tscn")
+var footstepParticles = preload("res://scenes/FootstepParticles.tscn")
 
 var gravity = 1000
 var velocity = Vector2.ZERO
@@ -31,6 +32,7 @@ var defaultHazardMask = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$HazardArea.connect("area_entered", self, "on_hazard_area_entered")
+	$AnimatedSprite.connect("frame_changed", self, "on_animated_sprite_frame_changed")
 	defaultHazardMask = $HazardArea.collision_mask
 
 func _process(delta):
@@ -85,7 +87,11 @@ func process_normal(delta):
 	# 코요테 타이머 시작
 	if(wasOnFloor && !is_on_floor()) :
 		$CoyoteTimer.start()
-
+	
+	# 착지 시 파티클 생성
+	if(!wasOnFloor && is_on_floor() && !isStateNew) :
+		spawn_footsteps(1.5)
+		
 	# 플레이어가 땅위에 있을 때 초기화
 	if(is_on_floor()) :
 		hasDoubleJump = true
@@ -156,12 +162,21 @@ func kill():
 	get_parent().add_child_below_node(self, playerDeathInstance)
 	playerDeathInstance.global_position = global_position
 	emit_signal("died")
-	
 
+func spawn_footsteps(scale = 1):
+	var footstep = footstepParticles.instance()
+	footstep.scale = Vector2(scale, scale)
+	get_parent().add_child(footstep)
+	footstep.global_position = global_position
+	
 # 플레이어 die 모듈화
 func on_hazard_area_entered(area2d) :
 	$"/root/Helper".apply_camera_shake(1)
 	call_deferred("kill")
+
+func on_animated_sprite_frame_changed():
+	if ($AnimatedSprite.animation == "run" && $AnimatedSprite.frame == 0):
+		spawn_footsteps()
 
 	
 	
