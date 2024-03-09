@@ -142,5 +142,5 @@ position = Vector2( 344, 33 )
 [node name="Spikes13" parent="Hazards" index="18" instance=ExtResource( 4 )]
 position = Vector2( 360, 33 )
 
-[node name="Player" parent="." index="7"]
-position = Vector2( -72, 10 )
+[node name="Player" parent="PlayerRoot" index="0"]
+position = Vector2( -117, 1 )

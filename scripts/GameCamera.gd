@@ -40,7 +40,15 @@ func apply_shake(percentage):
 	
 
 func acquire_target_position() :
-	var players = get_tree().get_nodes_in_group("player")
-	if(players.size() > 0) :
-		var player = players[0]
-		targetPosition = player.global_position
+	if (set_target_position_from_node_group("player")):
+		pass
+	else :
+		set_target_position_from_node_group("player_death")
+	
+func set_target_position_from_node_group(groupName) :
+	var nodes = get_tree().get_nodes_in_group(groupName)
+	var hasObject = (nodes.size() > 0)
+	if(hasObject) :
+		var node = nodes[0]
+		targetPosition = node.global_position
+	return hasObject	

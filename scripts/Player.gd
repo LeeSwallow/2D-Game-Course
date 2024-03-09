@@ -7,6 +7,8 @@ enum State { NORMAL, DASHING }
 
 export(int, LAYERS_2D_PHYSICS) var dashHazardMask
 
+var playerDeathScene = preload("res://scenes/PlayerDeath.tscn")
+
 var gravity = 1000
 var velocity = Vector2.ZERO
 
@@ -20,6 +22,7 @@ var jumpTerminationMultiplier =  3
 var hasDoubleJump = false
 var hasDash = false
 var isStateNew = true
+var isDying = false
 
 var currentState = State.NORMAL
 var defaultHazardMask = 0
@@ -140,11 +143,24 @@ func update_animation() :
 	if(moveVector.x != 0) :
 		$AnimatedSprite.flip_h = true if (moveVector.x > 0) else false
 	
+func kill():
+	if (isDying):
+		return
+		
+	isDying = true
+	
+	var playerDeathInstance = playerDeathScene.instance()
+	playerDeathInstance.velocity = velocity
+	get_parent().add_child_below_node(self, playerDeathInstance)
+	playerDeathInstance.global_position = global_position
+	emit_signal("died")
+	
 
 # 플레이어 die 모듈화
 func on_hazard_area_entered(area2d) :
 	$"/root/Helper".apply_camera_shake(1)
-	emit_signal("died")
+	call_deferred("kill")
+
 	
 	
 	
