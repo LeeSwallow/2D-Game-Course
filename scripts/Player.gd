@@ -170,7 +170,7 @@ func spawn_footsteps(scale = 1):
 	footstep.global_position = global_position
 	
 # 플레이어 die 모듈화
-func on_hazard_area_entered(area2d) :
+func on_hazard_area_entered(_area2d) :
 	$"/root/Helper".apply_camera_shake(1)
 	call_deferred("kill")
 

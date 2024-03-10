@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/GameCamera.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://resources/grass_dirt.tres" type="TileSet" id=3]
+[ext_resource path="res://resources/tile_set.tres" type="TileSet" id=3]
 [ext_resource path="res://scenes/flag.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/UI/LevelUI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/UI/LevelCompleteUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scripts/BaseLevel.gd" type="Script" id=7]
+[ext_resource path="res://resources/dercorative_tile_set.tres" type="TileSet" id=8]
 
 [node name="BaseLevel" type="Node" groups=["base_level"]]
 script = ExtResource( 7 )
@@ -14,24 +15,42 @@ levelCompleteScene = ExtResource( 6 )
 
 [node name="LevelUI" parent="." instance=ExtResource( 5 )]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMapRoot" type="Node2D" parent="."]
+
+[node name="BackgroundTileMap" type="TileMap" parent="TileMapRoot"]
+position = Vector2( 0, 1 )
 tile_set = ExtResource( 3 )
-cell_size = Vector2( 16, 16 )
+cell_size = Vector2( 18, 18 )
+format = 1
+tile_data = PoolIntArray( 131070, 536870914, 0, 131071, 536870914, 1, 65536, 536870914, 1, 65537, 536870914, 1, 65538, 536870914, 1, 65539, 536870914, 1, 65540, 536870914, 1, 65541, 536870914, 1, 65542, 536870914, 2, 196606, 536870914, 65536, 196607, 536870914, 65537, 131072, 536870914, 65537, 131073, 536870914, 65537, 131074, 536870914, 65537, 131075, 536870914, 65537, 131076, 536870914, 65537, 131077, 536870914, 65537, 131078, 536870914, 65538, 262142, 536870914, 131072, 262143, 536870914, 131073, 196608, 536870914, 131073, 196609, 536870914, 131073, 196610, 536870914, 131073, 196611, 536870914, 131073, 196612, 536870914, 131073, 196613, 536870914, 131073, 196614, 536870914, 131074 )
+
+[node name="DecorativeTileMap" type="TileMap" parent="TileMapRoot"]
+tile_set = ExtResource( 8 )
+cell_size = Vector2( 18, 18 )
+format = 1
+
+[node name="ForgroundTileMap" type="TileMap" parent="TileMapRoot"]
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 18, 18 )
 format = 1
 
 [node name="GameCamera" parent="." instance=ExtResource( 1 )]
-position = Vector2( 0, 0 )
-
-[node name="Flag" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, 1 )
 
+[node name="Flag" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, 2 )
+
 [node name="Enemies" type="Node2D" parent="."]
+position = Vector2( 0, 1 )
 
 [node name="Collectables" type="Node2D" parent="."]
+position = Vector2( 0, 1 )
 
 [node name="Hazards" type="Node2D" parent="."]
+position = Vector2( 0, 1 )
 
 [node name="PlayerRoot" type="Node2D" parent="."]
+position = Vector2( 0, 1 )
 
 [node name="Player" parent="PlayerRoot" instance=ExtResource( 2 )]
 position = Vector2( 0, 1 )
