@@ -19,7 +19,7 @@ tile_data = PoolIntArray( -655330, 2, 0, -655329, 2, 1, -655328, 2, 2, -589794, 
 format = 1
 
 [node name="Flag" parent="." index="4"]
-position = Vector2( 567, -188 )
+position = Vector2( 567, -179 )
 
 [node name="Coin" parent="Collectables" index="0" instance=ExtResource( 3 )]
 position = Vector2( 246, -21 )
