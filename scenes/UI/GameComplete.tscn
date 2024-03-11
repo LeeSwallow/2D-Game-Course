@@ -2,7 +2,7 @@
 
 [ext_resource path="res://resources/font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://resources/theme.tres" type="Theme" id=2]
-[ext_resource path="res://scripts/AnimatedButton.gd" type="Script" id=3]
+[ext_resource path="res://scenes/UI/PopUpAnimation.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/UI/AnimatedButton.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/GameComplete.gd" type="Script" id=5]
 [ext_resource path="res://scenes/UI/MenuBackground.tscn" type="PackedScene" id=6]
@@ -18,16 +18,18 @@ anchor_bottom = 1.0
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 margin_left = 88.0
-margin_top = 43.0
+margin_top = 40.0
 margin_right = 232.0
-margin_bottom = 137.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 144, 100 )
+rect_pivot_offset = Vector2( 72, 50 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
 margin_right = 144.0
-margin_bottom = 94.0
+margin_bottom = 100.0
 custom_constants/margin_right = 16
 custom_constants/margin_top = 8
 custom_constants/margin_left = 16
@@ -37,7 +39,7 @@ custom_constants/margin_bottom = 8
 margin_left = 16.0
 margin_top = 8.0
 margin_right = 128.0
-margin_bottom = 86.0
+margin_bottom = 92.0
 rect_min_size = Vector2( 112, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -60,15 +62,13 @@ taking this course!"
 align = 1
 valign = 1
 
-[node name="ContinueButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
+[node name="ContinueButton" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_left = 8.0
 margin_top = 53.0
 margin_right = 104.0
 margin_bottom = 77.9516
-rect_min_size = Vector2( 96, 24 )
-rect_pivot_offset = Vector2( 48, 12 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource( 2 )
 text = "CONTINUE TO MENU"
-script = ExtResource( 3 )
+
+[node name="PopUpAnimation" parent="." instance=ExtResource( 3 )]
