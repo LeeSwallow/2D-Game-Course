@@ -28,7 +28,7 @@ position = Vector2( 0, 1 )
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 18, 18 )
 format = 1
-tile_data = PoolIntArray( 131070, 536870914, 0, 131071, 536870914, 1, 65536, 536870914, 1, 65537, 536870914, 1, 65538, 536870914, 1, 65539, 536870914, 1, 65540, 536870914, 1, 65541, 536870914, 1, 65542, 536870914, 2, 196606, 536870914, 65536, 196607, 536870914, 65537, 131072, 536870914, 65537, 131073, 536870914, 65537, 131074, 536870914, 65537, 131075, 536870914, 65537, 131076, 536870914, 65537, 131077, 536870914, 65537, 131078, 536870914, 65538, 262142, 536870914, 131072, 262143, 536870914, 131073, 196608, 536870914, 131073, 196609, 536870914, 131073, 196610, 536870914, 131073, 196611, 536870914, 131073, 196612, 536870914, 131073, 196613, 536870914, 131073, 196614, 536870914, 131074 )
+tile_data = PoolIntArray( 131068, 2, 0, 131069, 2, 1, 131070, 2, 1, 131071, 2, 1, 65536, 2, 1, 65537, 2, 1, 65538, 2, 1, 65539, 2, 2, 196604, 2, 131072, 196605, 2, 131073, 196606, 2, 131073, 196607, 2, 131073, 131072, 2, 131073, 131073, 2, 131073, 131074, 2, 131073, 131075, 2, 131074 )
 
 [node name="DecorativeTileMap" type="TileMap" parent="TileMapRoot"]
 tile_set = ExtResource( 8 )
@@ -41,7 +41,9 @@ cell_size = Vector2( 18, 18 )
 format = 1
 
 [node name="Flag" parent="." instance=ExtResource( 4 )]
-position = Vector2( 0, 2 )
+position = Vector2( 58, 20 )
+
+[node name="TutorialSigns" type="Node2D" parent="."]
 
 [node name="Enemies" type="Node2D" parent="."]
 position = Vector2( 0, 1 )
@@ -53,7 +55,7 @@ position = Vector2( 0, 1 )
 position = Vector2( 0, 1 )
 
 [node name="PlayerRoot" type="Node2D" parent="."]
-position = Vector2( 0, 1 )
+position = Vector2( -51, 7 )
 
 [node name="Player" parent="PlayerRoot" instance=ExtResource( 2 )]
 position = Vector2( 0, 1 )

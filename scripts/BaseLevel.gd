@@ -48,12 +48,11 @@ func on_player_died():
 	currentPlayerNode.queue_free() # 마지막에 실행하므로 상관없음
 	var timer = get_tree().create_timer(1.5)
 	yield(timer, "timeout") # 타이머가 끝날 때까지 종료하지 않음
-	
 	create_player()
 
 func on_player_won():
-	currentPlayerNode.queue_free()
+	currentPlayerNode.disable_player_input()
 	var levelComplete = levelCompleteScene.instance()
 	add_child(levelComplete)
-	# $"/root/LevelManager".increment_level()
+	
 	
